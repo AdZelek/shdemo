@@ -5,20 +5,18 @@ import java.util.List;
 import com.example.shdemo.domain.Car;
 import com.example.shdemo.domain.Client;
 import com.example.shdemo.domain.Person;
+import com.example.shdemo.domain.Shelf;
 import com.example.shdemo.domain.Shoe;
 
-public interface SellingManagerShoe {
+public interface ShoeManager {
 	
-//	void addClient(Client client);
-//	List<Client> getAllClients();
-//	void deleteClient(Client client);
-//	Client findClientByNumberCart(int numberCart);
-//	
-
 	Long addShoe(Shoe shoe);
 	List<Shoe> getAllShoes();
 	void deleteShoe(Shoe shoe);
-	Shoe findShoeBySize(int size);
+	void updateShoe(Shoe oShoe, Shoe nShoe);
 	
+	Shoe findShoeByName(String name);
+	Shoe findShoeById(Long id);
+	void addShoeShelf(Shelf shelf); 
 
 }

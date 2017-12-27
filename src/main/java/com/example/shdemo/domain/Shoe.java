@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.xml.bind.annotation.XmlRootElement;
+
+
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -19,9 +21,9 @@ import javax.persistence.OneToOne;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(name = "shoe.All", query = "Select s from Shoe s"),
+	@NamedQuery(name = "shoe.all", query = "Select s from Shoe s"),
 	@NamedQuery(name="shoe.deleteAll", query="Delete from Shoe"),
-	@NamedQuery(name = "shoe.findBySize", query = "Select s from Shoe s where s.size = :size")
+	@NamedQuery(name = "shoe.byName", query = "Select s from Shoe s where s.name = :name")
 	
 })
 	public class Shoe {
@@ -31,18 +33,21 @@ import javax.persistence.OneToOne;
 		private int size;
 		private double price;
 		private Collection<Client> clients = new ArrayList<>();
+		private Shelf shelf;
+		
 		
 		public Shoe() {};
 		
-		public Shoe(String name, int size, double price, Collection<Client> clients) {
+		public Shoe(String name, int size, double price, Collection<Client> clients,Shelf shelf) {
 			//super();
 			this.name = name;
 			this.size = size;
 			this.price = price;
 			this.clients = clients;
+			this.shelf = shelf; 
 		}
 		
-		@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+		@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 		 public Collection<Client> getClients() {
 				return clients;
 			}
@@ -77,6 +82,14 @@ import javax.persistence.OneToOne;
 		}
 		public void setName(String name) {
 			this.name = name;
+		}
+		
+		@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+		public Shelf getShelf() {
+			return shelf;
+		}
+		public void setShelf(Shelf shelf) {
+			this.shelf = shelf;
 		}
 		
 	}

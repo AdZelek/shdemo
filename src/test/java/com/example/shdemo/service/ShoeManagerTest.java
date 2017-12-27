@@ -15,101 +15,84 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.shdemo.domain.Car;
 import com.example.shdemo.domain.Client;
 import com.example.shdemo.domain.Person;
+import com.example.shdemo.domain.Shoe;
 
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations = { "classpath:/beans.xml" })
-//@TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
-//@Transactional
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath:/beans.xml" })
+@TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
+@Transactional
 public class ShoeManagerTest {
 
-//	@Autowired
-//	SellingManagerShoe sm;
-//	
-//	private final String NAME_1 = "Bolek";
-//	private final int PIN_1 = 1234;
-//
-//	private final String NAME_2 = "Lolek";
-//	private final int PIN_2 = 4321;
-//
-//	private final String MODEL_1 = "126p";
-//	private final String MAKE_1 = "Fiat";
-//
-//	private final String MODEL_2 = "Mondeo";
-//	private final String MAKE_2 = "Ford";
-//
-//	@Test
-//	public void addClientCheck() {
-//
-//		List<Client> retrievedClients = sm.getAllClients();
-//
-//		// If there is a client with PIN_1 delete it
-//		for (Client client : retrievedClients) {
-//			if (client.getNumberCart() == PIN_1 ) {
-//				sm.deleteClient(client);
-//			}
-//		}
-//
-//		Client client = new Client();
-//		client.setFirstName(NAME_1);
-//		client.setNumberCart(PIN_1);
-//		// ... other properties here
-//
-//		// Pin is Unique
-//		sm.addClient(client);
-//
-//		Client retrievedClient = sm.findClientByNumberCart(PIN_1);
-//
-//		assertEquals(NAME_1, retrievedClient.getFirstName());
-//		assertEquals(PIN_1, retrievedClient.getNumberCart());
-//		// ... check other properties here
-//	}
-//
-////	@Test
-////	public void addCarCheck() {
-////
-////		Car car = new Car();
-////		car.setMake(MAKE_1);
-////		car.setModel(MODEL_1);
-////		// ... other properties here
-////
-////		Long carId = sm.addNewCar(car);
-////
-////		Car retrievedCar = sm.findCarById(carId);
-////		assertEquals(MAKE_1, retrievedCar.getMake());
-////		assertEquals(MODEL_1, retrievedCar.getModel());
-////		// ... check other properties here
-////
-////	}
-////
-////	@Test
-////	public void sellCarCheck() {
-////
-////		Person person = new Person();
-////		person.setFirstName(NAME_2);
-////		person.setPin(PIN_2);
-////
-////		sm.addClient(person);
-////
-////		Person retrievedPerson = sm.findClientByPin(PIN_2);
-////
-////		Car car = new Car();
-////		car.setMake(MAKE_2);
-////		car.setModel(MODEL_2);
-////
-////		Long carId = sm.addNewCar(car);
-////
-////		sm.sellCar(retrievedPerson.getId(), carId);
-////
-////		List<Car> ownedCars = sm.getOwnedCars(retrievedPerson);
-////
-////		assertEquals(1, ownedCars.size());
-////		assertEquals(MAKE_2, ownedCars.get(0).getMake());
-////		assertEquals(MODEL_2, ownedCars.get(0).getModel());
-////	}
-////
-////	// @Test -
-////	public void disposeCarCheck() {
-////		// Do it yourself
-////	}
+	@Autowired
+	ShoeManager sm;
+	
+	private final String NAME_1 = "Nike 123";
+	private final int SIZE_1 = 36;
+	private final double PRICE_1 = 199.99;
+
+	private final String NAME_2 = "Kalenji n34";
+	private final String NAME_3 = "Kalenji n310";
+	private final int SIZE_2 = 39;
+	private final double PRICE_2 = 299.99;
+
+
+	@Test
+	public void addShoe() {
+		Shoe shoe = new Shoe();
+		shoe.setName(NAME_1);
+		shoe.setPrice(PRICE_1);
+		shoe.setSize(SIZE_1);
+		
+     Long shoeId = sm.addShoe(shoe);
+     Shoe retrievedShoe= sm.findShoeById(shoeId );
+     assertEquals(NAME_1, retrievedShoe.getName());
+     assertEquals(SIZE_1, retrievedShoe.getSize());
+     assertEquals(PRICE_1, retrievedShoe.getPrice(), 0.01);
+
+	}
+	
+	@Test
+    public void updateShoe() {
+
+		Shoe shoe = new Shoe();
+		shoe.setName(NAME_1);
+		shoe.setPrice(PRICE_1);
+		shoe.setSize(SIZE_1);
+		
+		sm.addShoe(shoe);
+		
+		Shoe newShoe = new Shoe();
+		newShoe.setName(NAME_2);
+		newShoe.setPrice(PRICE_2);
+		newShoe.setSize(SIZE_2);
+        
+       Shoe retrievedShoe = sm.findShoeByName(NAME_1);
+       sm.updateShoe(retrievedShoe, newShoe);
+
+        assertEquals(NAME_2, retrievedShoe.getName());
+        assertEquals(PRICE_2, retrievedShoe.getPrice(), 0.01);
+        assertEquals(SIZE_2, retrievedShoe.getSize());
+
+	}
+	
+	
+	@Test
+    public void deleteShoe() {
+     
+		Shoe shoe = new Shoe();
+		shoe.setName(NAME_3);
+		shoe.setPrice(PRICE_2);
+		shoe.setSize(SIZE_2);
+		sm.addShoe(shoe);
+
+		Shoe retrievedShoe= sm.findShoeByName(NAME_3);
+        sm.deleteShoe(retrievedShoe);
+    	List<Shoe> retrievedShoes= sm.getAllShoes();
+    	
+        assertEquals(0, retrievedShoes.size());
+       }
+	
+	
+
 
 }
