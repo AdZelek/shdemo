@@ -1,6 +1,5 @@
 package com.example.shdemo.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
@@ -8,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.shdemo.domain.Car;
-import com.example.shdemo.domain.Client;
-import com.example.shdemo.domain.Person;
 import com.example.shdemo.domain.Shelf;
 import com.example.shdemo.domain.Shoe;
 
@@ -54,11 +50,6 @@ public class ShoeManagerHibernateImpl implements ShoeManager {
 		return (Shoe) sessionFactory.getCurrentSession().getNamedQuery("shoe.byName").setString("name", name).uniqueResult();
 	}
 
-	
-	@Override
-	public void addShoeShelf(Shelf shelf) {
-
-	}
 
 	@Override
 	public void updateShoe(Shoe oShoe, Shoe nShoe) {
@@ -73,5 +64,13 @@ public class ShoeManagerHibernateImpl implements ShoeManager {
 	public Shoe findShoeById(Long id) {
 		return (Shoe) sessionFactory.getCurrentSession().get(Shoe.class, id);
 	}
+
+	@Override
+	public Long addShelf(Shelf shelf) {
+		shelf.setId(null);
+		return (Long) sessionFactory.getCurrentSession().save(shelf);
+
+	}
+
 
 }

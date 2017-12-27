@@ -2,6 +2,8 @@ package com.example.shdemo.service;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.Test;
@@ -12,9 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.shdemo.domain.Car;
-import com.example.shdemo.domain.Client;
-import com.example.shdemo.domain.Person;
+import com.example.shdemo.domain.Shelf;
 import com.example.shdemo.domain.Shoe;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -90,6 +90,39 @@ public class ShoeManagerTest {
     	List<Shoe> retrievedShoes= sm.getAllShoes();
     	
         assertEquals(0, retrievedShoes.size());
+       }
+	
+	@Test
+    public void addShoesToShelf() {
+     
+		Collection<Shoe> shoes = new ArrayList<>();
+		Shoe shoe = new Shoe();
+		shoe.setName(NAME_3);
+		shoe.setPrice(PRICE_2);
+		shoe.setSize(SIZE_2);
+		sm.addShoe(shoe);
+		shoes.add(shoe); 
+		
+		Shoe shoe1 = new Shoe();
+		shoe1.setName(NAME_2);
+		shoe1.setPrice(PRICE_2);
+		shoe1.setSize(SIZE_2);
+		sm.addShoe(shoe1);
+		shoes.add(shoe1); 
+		
+
+		Shelf shelf = new Shelf();
+		shelf.setColumn(10);
+		shelf.setRow(12);
+		shelf.setShoes(shoes);
+		shelf.addShelfToShoe(shoes); 
+		
+		sm.addShelf(shelf); 
+		Shoe retrievedShoe = sm.findShoeByName(NAME_3);
+		Shoe retrievedShoe2 = sm.findShoeByName(NAME_2);
+		
+		assertEquals(12, retrievedShoe.getShelf().getRow());
+		assertEquals(12, retrievedShoe2.getShelf().getRow());
        }
 	
 	

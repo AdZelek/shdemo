@@ -1,7 +1,5 @@
 package com.example.shdemo.domain;
 
-import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,15 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 
 @Entity
 @NamedQueries({
@@ -32,28 +27,20 @@ import javax.persistence.OneToOne;
 		private String name;
 		private int size;
 		private double price;
-		private Collection<Client> clients = new ArrayList<>();
 		private Shelf shelf;
 		
 		
 		public Shoe() {};
 		
-		public Shoe(String name, int size, double price, Collection<Client> clients,Shelf shelf) {
+		public Shoe(String name, int size, double price, Shelf shelf) {
 			//super();
 			this.name = name;
 			this.size = size;
 			this.price = price;
-			this.clients = clients;
-			this.shelf = shelf; 
+				this.shelf = shelf; 
 		}
 		
-		@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-		 public Collection<Client> getClients() {
-				return clients;
-			}
-			public void setClients(Collection<Client> clients) {
-				this.clients = clients;
-			}
+		
 
 		@Id
 		@GeneratedValue(strategy =GenerationType.IDENTITY) 

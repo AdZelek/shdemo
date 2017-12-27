@@ -1,13 +1,14 @@
 package com.example.shdemo.domain;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.xml.bind.annotation.XmlRootElement;
+
 
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -19,9 +20,8 @@ public class Shelf {
 	private Long Id; 
 	private int row;
 	private int column;
-	@SuppressWarnings("unchecked")
-	private Collection<Shoe> shoes = new HashSet();
-	
+	private Collection<Shoe> shoes = new ArrayList<>();
+
 	
 	public Shelf() {};
 	
@@ -67,14 +67,15 @@ public class Shelf {
 	public void setShoes(Collection<Shoe> shoes) {
 		this.shoes = shoes;
 	}
-	 
-public void addShoes(List<Shoe> shoes) {
+	
+    public void addShelfToShoe(Collection<Shoe> shoes) {
 		
-		this.setShoes(shoes);
 		for (Shoe shoe: shoes){
-			shoe.getShelf();
+			shoe.setShelf(this);
 		}
 	}	
+	 
+   
 	
 	
 	
